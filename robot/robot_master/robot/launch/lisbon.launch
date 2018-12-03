@@ -1,0 +1,92 @@
+<launch>
+        <!-- Start p2os driver -->
+	<!-- You should set the port to whichever one is at the end of USB-serial converter -->
+	<node pkg="p2os_driver" type="p2os_driver" name="p2os">
+	        <param name="port" value="/dev/ttyUSB0" />
+	        <param name="use_sonar" value="false" />
+	        <param name="pulse" value="1.0"/>
+	        <remap from="/pose" to="/odom" />
+
+	</node>
+	<!-- run RosAria pioneer drivers -->
+	<!--<node pkg="rosaria" type="RosAria" name="RosAria" >-->
+		<!--<param name="port" type="string" value="/dev/ttyUSB0" />-->
+		<!--<param name="trans_decel" value="0.4"/>-->
+		<!--<param name="trans_accel" value="0.25"/>-->
+		<!--<param name="rot_accel" value="1.3"/>-->
+		<!--<remap from="/RosAria/cmd_vel" to="/cmd_vel" />-->
+		<!--<remap from="/RosAria/pose" to="odom" />-->
+	<!--</node>>-->
+
+	<!-- run hokuyo laser node -->
+	<!--<node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo">-->
+		<!--<remap from="/laser" to="/scan_in" />-->
+		<!--<remap from="/scan" to="/scan_in" />-->
+	<!--</node>-->
+
+	<!-- SICK laser -->
+	<node name="sick_tim551_2050001" pkg="sick_tim" type="sick_tim551_2050001" respawn="false" output="screen">
+		<param name="frame_id" type="string" value="laser"/>
+		<param name="min_ang" type="double" value="-2"/>
+		<param name="max_ang" type="double" value="2"/>
+		<param name="intensity" type="bool" value="true"/>
+		<remap from="/laser" to="/scan_in" />
+		<remap from="/scan" to="/scan_in" />
+	</node>
+
+    <node pkg="range_fixer" type="range_fixer.py" name="range_fixer">
+		<remap from="/scan_out" to="/base_scan" />
+	</node>
+
+    <!-- Load the URDF into the ROS Parameter Server -->
+      <param name="robot_description"
+    	 command="$(find xacro)/xacro.py '$(find pioneer_description)/urdf/pioneer3dx.xacro'" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+	<!-- MAP server to load the predefined map
+<arg name="map_file" default="$(find barc_rockin_launch)/map/lab_16_11.yaml"/>-->
+	<arg name="map_file" default="$(find barc_rockin_launch)/map/barc_erl_2016.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="log" />
+    <!-- Include move base launch file -->
+      <!-- Use with Pioneer Gazebo simulation and Pioneer3dx robot platform -->
+			<remap from="/map" to="/dummy2" />
+    	<include file="$(find pioneer_2dnav)/move_base.launch">
+		</include>
+
+	<!-- transform laser co-ordinates into robot-base co-ordinate frame -->
+	<node pkg="tf" type="static_transform_publisher" name="stp_laser" output="screen" args="0.135 0 0.202 0 0 0 base_link laser 100" />
+
+    <!-- SLAM mapping nodes -->
+    <include file="$(find stuart)/launch/slam_gmapping.launch"/>
+    <!--<node pkg="gmapping" type="slam_gmapping" name="gmapping">
+        <remap from="scan" to="base_scan"/>
+    </node>-->
+
+
+    <!-- Teleop joy launcher -->
+    <!--<include file="$(find stuart)/launch/teleop_joy.launch" />-->
+
+	<!-- joy node -->
+	<node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
+		<param name="dev" type="string" value="/dev/input/js0" />
+		<param name="deadzone" value="0.12" />
+		<param name="autorepeat_rate" type="double" value="10.0" />
+		<!--<remap from="/teleop/cmd_vel" to="/cmd_vel" />-->
+	</node>
+
+	<!-- Axes -->
+	<param name="linear_axis" value="1" type="int"/>
+	<param name="angular_axis" value="0" type="int"/>
+	<!--param name="linear_speed_max" value="0.4" type="double"/>
+    <param name="angular_speed_max" value="0.6" type="double"/-->
+
+	<!-- teleop and safety stuff -->
+	<node pkg="mixed_initiative_teleop" type="mixed_initiative_teleop" name="dora_teleop" output="screen" />
+	<node pkg="mixed_initiative_controller" type="mixed_initiative_controller" name="mi_controller" output="screen" />
+
+    <!-- rviz launch file -->
+      <node name="rviz" pkg="rviz" type="rviz" args="-d $(find stuart)/rviz/p3dx.rviz" />
+
+</launch>

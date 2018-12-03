@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:fitsSystemWindows="true"
+    >
+
+
+    <ImageView
+        android:id="@+id/mic"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/mic_off" />
+
+    <TextView
+        android:id="@+id/recognition"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/mic"
+        android:layout_alignParentTop="true"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/input_ip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="42dp"
+        android:layout_marginStart="23dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Enter new IP..." />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/input_ip"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="11dp"
+        android:onClick="set_ip"
+        android:background="@android:color/transparent"
+        android:text="SET" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:background="@android:color/transparent"
+        android:text="Speak" />
+</RelativeLayout>

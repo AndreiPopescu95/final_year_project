@@ -1,0 +1,3 @@
+MOTION-dir:forward 
+MOTION-dir:backward 
+TURN-dir:left ori:45 

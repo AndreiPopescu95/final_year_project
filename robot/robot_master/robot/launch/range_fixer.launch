@@ -1,0 +1,9 @@
+<launch>
+    <!-- Start p2os driver -->
+    <!-- You should set the port to whichever one is at the end of USB-serial converter -->
+
+    <node pkg="range_fixer" type="range_fixer.py" name="range_fixer">
+        <remap from="/scan_out" to="/base_scan" />
+    </node>
+
+</launch>

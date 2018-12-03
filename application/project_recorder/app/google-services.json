@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "895283324052",
+    "firebase_url": "https://projectrecorder-cdf08.firebaseio.com",
+    "project_id": "projectrecorder-cdf08",
+    "storage_bucket": "projectrecorder-cdf08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895283324052:android:98bed29b243f63ae",
+        "android_client_info": {
+          "package_name": "andrei.project_recorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895283324052-uhgav40nvfqt6k8ef6nmvelstoofke5v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "andrei.project_recorder",
+            "certificate_hash": "76da70ca2e4a0f1d0995254a4347eb3ea61ab86b"
+          }
+        },
+        {
+          "client_id": "895283324052-aapt1j9tsu4qba2eealfr8jc685e8778.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjhsau8DF4BmnyCexk7Hfojc9wUgnTIng"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895283324052-aapt1j9tsu4qba2eealfr8jc685e8778.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
